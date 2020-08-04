@@ -1,0 +1,59 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <utility>
+#include <cmath>
+using namespace std;
+
+vector<pair<int,int>> pos;
+int visited[20]={0}; int bit[2]={0,1};
+int tx=0; int ty=0; double ans=9876543210;
+double an = 0; int nx=0; int ny=0;
+
+void vclear(){
+  pos.clear();
+  for(int i=0;i<20;i++)visited[i]=0;
+  ans=9876543210; tx=0; ty=0;
+}
+
+void selectVector(int n, int now_size, int now_sum){
+  if(now_size==n){
+    if(now_sum==n/2){
+      nx=tx;ny=ty;
+      for(int i=0;i<n;i++){
+      if(visited[i]==0){nx-=2*pos[i].first;ny-=2*pos[i].second;}
+      //cout<<visited[i];
+      }//cout<<"\n";
+      an = pow(nx,2)+pow(ny,2); 
+      ans=min(sqrt(an),ans);
+      return;
+    }
+    else return;
+    
+  }
+  for(int i=0;i<2;i++){
+    visited[now_size]=bit[i];
+    now_sum+=visited[now_size];
+    selectVector(n,now_size+1,now_sum);
+  }
+}
+
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL); cout.tie(NULL);
+	int t,n,x,y;
+	cin >> t;
+	for(int i=0;i<t;i++){
+		cin>>n;
+    for(int j=0;j<n;j++){
+			cin >> x >> y;
+      pos.push_back({x,y});
+      tx+=x; ty+=y;
+		}
+    selectVector(n,0,0);
+    cout <<fixed; cout.precision(6);
+    cout << ans<<"\n";
+	  vclear();
+  }
+	return 0;
+}
