@@ -1,0 +1,71 @@
+#include <iostream>
+using namespace std;
+
+int r,c,t;
+int map[50][50]; 
+int map_temp[50][50];
+int dx[]={1,-1,0,0};
+int dy[]={0,0,1,-1};
+int dust=0;
+
+void diffusion(){
+  for(int i=0;i<r;i++){
+    for(int j=0;j<c;j++){
+      map_temp[i][j]=0;
+    }
+  }
+  for(int i=0;i<r;i++){
+    for(int j=0;j<c;j++){
+      if(map[i][j]>=5){
+        for(int k=0;k<4;k++){
+          int nx=i+dx[k];
+          int ny=j+dy[k];
+          if(nx>=0&&nx<r&&ny>=0&&ny<c&&map[nx][ny]!=-1){
+            map_temp[nx][ny]+=map[i][j]/5;
+            map_temp[i][j]-=map[i][j]/5;
+          }
+        }
+      }
+    }
+  }
+  for(int i=0;i<r;i++){
+    for(int j=0;j<c;j++)
+    map[i][j]+=map_temp[i][j];
+  }
+}
+
+void purify(int ap){
+  //upper
+  for(int i=ap-2;i>=1;i--)map[i][0]=map[i-1][0];
+  for(int i=0;i<=c-2;i++)map[0][i]=map[0][i+1];
+  for(int i=0;i<=ap-2;i++)map[i][c-1]=map[i+1][c-1];
+  for(int i=c-1;i>=2;i--)map[ap-1][i]=map[ap-1][i-1];
+  map[ap-1][1]=0;
+  //lower
+  for(int i=ap+1;i<=r-1;i++)map[i][0]=map[i+1][0];
+  for(int i=0;i<=c-2;i++)map[r-1][i]=map[r-1][i+1];
+  for(int i=r-1;i>=ap+1;i--)map[i][c-1]=map[i-1][c-1];
+  for(int i=c-1;i>=2;i--)map[ap][i]=map[ap][i-1];
+  map[ap][1]=0;
+}
+
+int main() {
+  int ap;
+  cin >> r >> c >> t;
+  for(int i=0;i<r;i++){
+    for(int j=0;j<c;j++){
+      cin >> map[i][j];
+      if(map[i][j]==-1)ap=i;
+    }
+  }
+  for(int i=0;i<t;i++){
+    diffusion();
+    purify(ap);
+  }  
+  for(int i=0;i<r;i++){
+    for(int j=0;j<c;j++){
+      if(map[i][j]>=0)dust+=map[i][j];
+    }
+  }
+  cout<<dust;
+}
