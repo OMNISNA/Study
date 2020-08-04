@@ -42,18 +42,18 @@ void bfs(){
 }
 
 int counter(){
-	int cnt = 0;
+  int cnt = 0;
   for(int k=0;k<h;k++){
     for(int i=0;i<m;i++){
-	  	for(int j=0;j<n;j++){
-		  	if(tomato[i][j][k]==0) {
-		  		return -1;
-		  	}
-		  	cnt = max(cnt,tomato[i][j][k]);
-	  	}
-  	}
+  	for(int j=0;j<n;j++){
+          if(tomato[i][j][k]==0) {
+	    return -1;
+	   }
+	cnt = max(cnt,tomato[i][j][k]);
+	}
+    }
   }
-	return cnt-1;
+ return cnt-1;
 }
 
 int main() {
