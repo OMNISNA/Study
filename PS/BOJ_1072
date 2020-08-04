@@ -1,0 +1,24 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+long long binarysearch(long long x, long long y,long long z){
+  long long std,mid,left,right;
+  left=0;
+  right=10000000000;
+  while(left<=right){
+    mid = (left+right)/2;
+    std = 100*(y+mid)/(x+mid);
+    if(z<std)right=mid-1;
+    else left=mid+1;
+  }
+  return left;
+}
+
+int main() {
+  long long x,y,z;
+  cin >> x >> y;
+  z = 100*y/x;
+  if(z>=99)cout << -1;
+  else cout << binarysearch(x,y,z);
+}
