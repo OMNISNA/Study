@@ -1,0 +1,39 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <cmath>
+using namespace std;
+long long MAX=1000000000000000000;
+
+long long power(long long a, long long b){
+  long long ans=1;
+  while(b--){ans*=a;}
+  return ans;
+}
+
+void getHam(long long a, long long b, long long c, long long i){
+  int a_max=18/log10(a);
+  int b_max=18/log10(b);
+  int c_max=18/log10(c);
+  vector<long long> v; long long now; long long before;
+  for(int i=0;i<=c_max;i++){
+    for(int j=0;j<=b_max;j++){
+      for(int k=0;k<=a_max;k++){
+        now = power(c,i)*power(b,j)*power(a,k);
+        if(now>MAX||now<0)break;
+        if(k>0&&before>now)break;
+        v.push_back(now);
+        before=now;
+      }
+    }
+  }
+  sort(v.begin(),v.end());
+  cout<<v[i];
+}
+
+int main() {
+  long long a[3],i;
+  cin >> a[0] >> a[1] >> a[2] >> i;
+  sort(a,a+3);
+  getHam(a[0],a[1],a[2],i);
+}
