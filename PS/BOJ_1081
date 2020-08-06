@@ -1,0 +1,40 @@
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+
+long long dp[13]={0};
+int l,u;
+
+long long getDigitSum(int n){
+  int pivot=log10(n);
+  int pivot1 = n/int(pow(10,pivot));
+  long long sum=0;
+  int now=0;
+  int adit=0;
+  while(pivot>0){
+    pivot1 = (n/int(pow(10,pivot)))%10;
+    sum+=pivot1*dp[pivot]+adit*pivot1*pow(10,pivot)+pivot1*(pivot1-1)/2*pow(10,pivot);
+    now+=pivot1*pow(10,pivot);
+    adit+=pivot1;
+    pivot--; 
+  }
+  while(n>=now){
+    int s=now;
+    while(s>0){
+      sum+=s%10;
+      s/=10;
+    }
+    now++;
+  }
+  return sum;
+}
+
+int main() {
+  cin >> l >> u; 
+  //0부터 10^i-1까지의 digitsum
+  for(int i=0;i<13;i++){
+    dp[i]=i*(45*pow(10,i-1));
+  }
+  cout << getDigitSum(u)-getDigitSum(l-1);
+}
